@@ -101,6 +101,26 @@ var UIController = (function () {
 
         },
 
+        clearFields: function () {
+            var fields, fieldsArr;
+            // querySelectAll returns a list (not an array) of all the comma-separated elements listed in your param
+            fields = document.querySelectorAll(DOMstrings.inputDescription + ', ' + DOMstrings.inputValue);
+            // easiest way to convert a list into an array is with slice
+            // need to call the one in the array prototype since list don't have this method themselves
+            fieldsArr = Array.prototype.slice.call(fields);
+
+            // better way to go through an array is with foreach loop
+            // callback function can take up to 3 parameters
+            // param 1 - current value
+            // param 2 - index number
+            // param 3 - entire array
+            fieldsArr.forEach(function (current, index, array) {
+                current.value = '';
+            });
+
+            fieldsArr[0].focus(); // set the focus back to the first field
+        },
+
         getDOMstrings: function () {
             return DOMstrings;
         }
@@ -134,8 +154,13 @@ var controller = (function (budgetCtrl, UICtrl) {
 
         // 3. Add the new item to the UI
         UICtrl.addListItem(newItem, input.type);
-        // 4. Calculate the budget
-        // 5. Display the button on the UI
+
+        // 4. Clear the fields
+        UICtrl.clearFields();
+
+        // 5. Calculate the budget
+
+        // 6. Display the button on the UI
     };
 
     return {
