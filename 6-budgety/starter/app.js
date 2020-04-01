@@ -167,6 +167,11 @@ var UIController = (function () {
 
         },
 
+        deleteListItem: function (selectorID) {
+            var el = document.getElementById(selectorID);
+            el.parentNode.removeChild(el);
+        },
+
         clearFields: function () {
             var fields, fieldsArr;
             // querySelectAll returns a list (not an array) of all the comma-separated elements listed in your param
@@ -273,8 +278,10 @@ var controller = (function (budgetCtrl, UICtrl) {
             // 1. Delete the item from the data structure
             budgetCtrl.deleteItem(type, ID);
             // 2. Delete the item from the UI
+            UICtrl.deleteListItem(itemID);
 
             // 3. Update and show the new budget
+            updateBudget();
         }
     };
 
