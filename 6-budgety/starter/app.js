@@ -63,6 +63,31 @@ var budgetController = (function () {
             return newItem;
         },
 
+
+        deleteItem: function (type, id) {
+            var ids, index;
+
+            // imagine id = 6
+            // all ids are [ 1 2 4 6 8]
+            // need to find out that id 6 is at index 3
+
+            //using map function. Difference between this and forEach is that
+            //map returns another array.
+            ids = data.allItems[type].map(function (current) {
+                return current.id
+            });
+
+            index = ids.indexOf(id);
+
+            if (index !== -1) {
+                // using splice function to delete elements from the array
+                // takes two arguments--index to start deleting elements and
+                //  number of elements to delete.
+                data.allItems[type].splice(index, 1);
+            }
+        },
+
+
         calculateBudget: function () {
             // calculate total income and expenses
             calculateTotal('exp');
@@ -243,10 +268,10 @@ var controller = (function (budgetCtrl, UICtrl) {
             //inc-1
             splitID = itemID.split('-');
             type = splitID[0];
-            ID = splitID[1];
+            ID = parseInt(splitID[1]);
 
             // 1. Delete the item from the data structure
-
+            budgetCtrl.deleteItem(type, ID);
             // 2. Delete the item from the UI
 
             // 3. Update and show the new budget
